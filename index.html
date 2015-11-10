@@ -25,7 +25,7 @@
 
 					var clock = new THREE.Clock()
 					
-					camera.position.z = 60
+					camera.position.z = 30
 
 
 					scene.add( new THREE.DirectionalLight() )
@@ -54,7 +54,8 @@
 
 
 					scene.add( mesh )
-					
+					mesh.rotation.y = Math.PI * -0.5
+					// mesh.rotation.y = Math.PI * 0.5
 					
 					mixer.play( new THREE.AnimationAction( geometry.animations[ 0 ] ) );
 
