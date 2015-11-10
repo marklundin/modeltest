@@ -20,8 +20,10 @@
 
 				document.body.appendChild( renderer.domElement )
 
-				new THREE.JSONLoader().load( './htc_shaderTest_008.js', function( geometry, materials ){
+				new THREE.JSONLoader().load( './htc_shaderTest_008.json', function( geometry, materials ){
 
+
+					var clock = new THREE.Clock()
 					
 					camera.position.z = 60
 
@@ -44,24 +46,24 @@
 
 
 					// Create the animations		
-					for ( var i = 0; i < geometry.animations.length; ++ i ) {
-						var animName = geometry.animations[ i ].name;
-						animations[ animName ] = geometry.animations[ i ];
-					}
+					// for ( var i = 0; i < geometry.animations.length; ++ i ) {
+					// 	var animName = geometry.animations[ i ].name;
+					// 	animations[ animName ] = geometry.animations[ i ];
+					// }
 
 
 
 					scene.add( mesh )
 					
 					
-					mixer.play( new THREE.AnimationAction( animations[ 'skinningTest|Take 001|BaseLayer' ] ) );
+					mixer.play( new THREE.AnimationAction( geometry.animations[ 0 ] ) );
 
 					
 
 
 					function render(){
 
-						mixer.update( 1000 / 60 );
+						mixer.update( clock.getDelta() );
 
 						controls.update()
 						// RENDER STEP - fbo's, post etc
