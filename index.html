@@ -4,6 +4,8 @@
 			html, body{ margin:0; padding:0;} 
 		</style>
 		<script src='//rawgit.com/mrdoob/three.js/master/build/three.js'></script>
+		<script src='//raw.githubusercontent.com/mrdoob/three.js/master/examples/js/controls/OrbitControls.js'></script>
+		
 	</head>
 	<body>
 
@@ -12,6 +14,9 @@
 				var scene = new THREE.Scene(),
 					renderer = new THREE.WebGLRenderer({antialias:true}),
 					camera = new THREE.PerspectiveCamera( 110, 1.2, 0.1, 1000 )
+
+
+					controls = new THREE.OrbitControls( camera )
 
 				document.body.appendChild( renderer.domElement )
 
@@ -58,7 +63,7 @@
 
 						mixer.update( 1000 / 60 );
 
-
+						controls.update()
 						// RENDER STEP - fbo's, post etc
 						renderer.render( scene, camera )
 						requestAnimationFrame( render )
