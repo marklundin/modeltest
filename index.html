@@ -1,0 +1,85 @@
+<html>
+	<head>
+		<script src='https://rawgit.com/mrdoob/three.js/master/build/three.js'></script>
+	</head>
+	<body>
+
+		<script>
+
+				var scene = new THREE.Scene(),
+					renderer = new THREE.WebGLRenderer({antialias:true}),
+					camera = new THREE.PerspectiveCamera( 110, 1.2, 0.1, 1000 )
+
+				document.body.appendChild( renderer.domElement )
+
+				new THREE.JSONLoader().load( './htc_shaderTest_008.js', function( geometry, materials ){
+
+					
+					camera.position.z = 60
+
+
+					scene.add( new THREE.DirectionalLight() )
+
+					var material = new THREE.MeshLambertMaterial()
+					// material.skinning = true;
+					// material.morphTargets = true;
+
+
+					geometry.center()
+
+
+					var mesh = new THREE.SkinnedMesh( geometry, material )
+					mesh.frustumCulled = false
+					
+					var mixer = new THREE.AnimationMixer( mesh );
+					var animations = []
+
+
+					// Create the animations		
+					for ( var i = 0; i < geometry.animations.length; ++ i ) {
+						var animName = geometry.animations[ i ].name;
+						animations[ animName ] = geometry.animations[ i ];
+					}
+
+
+
+					scene.add( mesh )
+					
+					
+					mixer.play( new THREE.AnimationAction( animations[ 'skinningTest|Take 001|BaseLayer' ] ) );
+
+					
+
+
+					function render(){
+
+						mixer.update( 1000 / 60 );
+
+
+						// RENDER STEP - fbo's, post etc
+						renderer.render( scene, camera )
+						requestAnimationFrame( render )
+
+					}
+
+					
+
+
+					function setSize( w, h ){
+
+						camera.aspect = w / h;
+						camera.updateProjectionMatrix();
+
+						renderer.setSize( w, h )
+
+					}
+
+					setSize( window.innerWidth, window.innerHeight )
+					document.addEventListener( 'reszie', function(){ setSize( window.innerWidth, window.innerHeight )})
+					render()
+
+				})
+
+		</script>
+	</body>
+</html>
