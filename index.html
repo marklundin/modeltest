@@ -31,13 +31,15 @@
 					camera.position.z = 30
 
 
+
+
 					scene.add( new THREE.DirectionalLight() )
 
 					var material = new THREE.MeshLambertMaterial()
 					material.skinning = true;
 					// material.morphTargets = true;
 
-					geometry.scale( 30, 30, 30 )
+					// geometry.scale( 30, 30, 30 )
 					// geometry.center()
 
 
@@ -46,6 +48,16 @@
 					
 					var mixer = new THREE.AnimationMixer( mesh );
 					var animations = []
+
+
+					helper = new THREE.SkeletonHelper( mesh );
+					helper.material.linewidth = 3;
+					helper.visible = true;
+					scene.add( helper );
+
+					mesh.scale.set( 1000, 1000, 1000 )
+					console.log( helper )
+
 
 
 					// Create the animations		
@@ -68,6 +80,7 @@
 					function render(){
 
 						mixer.update( clock.getDelta() );
+						helper.update();
 
 						controls.update()
 						// RENDER STEP - fbo's, post etc
