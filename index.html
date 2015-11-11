@@ -24,6 +24,7 @@
 
 				new THREE.JSONLoader().load( './htc_shaderTest_008.json', function( geometry, materials ){
 
+					console.log( geometry )
 
 					var clock = new THREE.Clock()
 					
@@ -36,7 +37,7 @@
 					material.skinning = true;
 					// material.morphTargets = true;
 
-
+					geometry.scale( 30, 30, 30 )
 					geometry.center()
 
 
