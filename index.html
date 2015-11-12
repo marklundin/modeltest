@@ -3,9 +3,8 @@
 		<style>
 			html, body{ margin:0; padding:0;} 
 		</style>
-		<script src='//rawgit.com/mrdoob/three.js/master/build/three.js'></script>
+		<script src='./three.js'></script>
 		<script src='//rawgit.com/mrdoob/three.js/master/examples/js/controls/OrbitControls.js'></script>
-		
 	</head>
 	<body>
 
@@ -23,6 +22,7 @@
 				console.log( 'NEW')
 
 				new THREE.JSONLoader().load( './htc_shaderTest_008.json', function( geometry, materials ){
+				// new THREE.ColladaLoader().load( './dae-export.dae', function( geometry, materials ){
 
 
 					console.log( geometry )
@@ -35,7 +35,7 @@
 
 					scene.add( new THREE.DirectionalLight() )
 
-					var material = new THREE.MeshBasicMaterial({wireframe:true})
+					var material = new THREE.MeshLambertMaterial({wireframe:false, side:THREE.DoubleSide })
 					material.skinning = true;
 					// material.morphTargets = true;
 
@@ -48,7 +48,7 @@
 
 					// mesh.scale.set( 0.1, 0.1, 0.1 )
 					
-					var mixer = new THREE.AnimationMixer( mesh );
+					// var mixer = new THREE.AnimationMixer( mesh );
 					var animations = []
 
 
@@ -57,7 +57,7 @@
 					helper.visible = true;
 					scene.add( helper );
 
-					mesh.scale.set( 1000, 1000, 1000 )
+					// mesh.scale.set( 1000, 1000, 1000 )
 					console.log( helper )
 
 
@@ -74,14 +74,15 @@
 					mesh.rotation.y = Math.PI * -0.5
 					// mesh.rotation.y = Math.PI * 0.5
 					
-					mixer.play( new THREE.AnimationAction( geometry.animations[ 0 ] ) );
+					var animation = new THREE.Animation( mesh, geometry.animations[0] );
+				animation.play();
 
 					
 
 
 					function render(){
 
-						mixer.update( clock.getDelta() );
+						THREE.AnimationHandler.update( clock.getDelta() );
 						helper.update();
 
 						controls.update()
