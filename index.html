@@ -13,7 +13,7 @@
 
 				var scene = new THREE.Scene(),
 					renderer = new THREE.WebGLRenderer({antialias:true}),
-					camera = new THREE.PerspectiveCamera( 110, 1.2, 0.1, 5000 )
+					camera = new THREE.PerspectiveCamera( 110, 1.2, 0.1, 10000000 )
 
 
 					controls = new THREE.OrbitControls( camera )
@@ -24,6 +24,7 @@
 
 				new THREE.JSONLoader().load( './htc_shaderTest_008.json', function( geometry, materials ){
 
+
 					console.log( geometry )
 
 					var clock = new THREE.Clock()
@@ -32,10 +33,9 @@
 
 
 
-
 					scene.add( new THREE.DirectionalLight() )
 
-					var material = new THREE.MeshLambertMaterial()
+					var material = new THREE.MeshBasicMaterial({wireframe:true})
 					material.skinning = true;
 					// material.morphTargets = true;
 
@@ -45,6 +45,8 @@
 
 					var mesh = new THREE.SkinnedMesh( geometry, material )
 					mesh.frustumCulled = false
+
+					// mesh.scale.set( 0.1, 0.1, 0.1 )
 					
 					var mixer = new THREE.AnimationMixer( mesh );
 					var animations = []
