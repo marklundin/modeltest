@@ -4,110 +4,127 @@
 			html, body{ margin:0; padding:0;} 
 		</style>
 		<script src='./three.js'></script>
-		<script src='//rawgit.com/mrdoob/three.js/master/examples/js/controls/OrbitControls.js'></script>
+		<!-- <script src='https://rawgit.com/mrdoob/three.js/master/build/three.js'></script> -->
+		
+		<script src='./scene-loader.js'></script>
+		<script src='./orbit-controls.js'></script>
+		
 	</head>
 	<body>
 
 		<script>
 
-				var scene = new THREE.Scene(),
+				var /*scene = new THREE.Scene(),*/
 					renderer = new THREE.WebGLRenderer({antialias:true}),
 					camera = new THREE.PerspectiveCamera( 110, 1.2, 0.1, 10000000 )
 
-
+					renderer.setClearColor( 0xffffff )
 					controls = new THREE.OrbitControls( camera )
 
 				document.body.appendChild( renderer.domElement )
 
 				console.log( 'NEW')
 
-				new THREE.JSONLoader().load( './htc_shaderTest_008.json', function( geometry, materials ){
-				// new THREE.ColladaLoader().load( './dae-export.dae', function( geometry, materials ){
+
+				var texture = new THREE.TextureLoader().load('./htc_textures_pizza.png', function( texture ){
 
 
-					console.log( geometry )
+					texture.needsUpdate = true
 
-					var clock = new THREE.Clock()
-					
-					camera.position.z = 30
+				
+					new THREE.ObjectLoader().load( './htc_shaderTest_008.json', function( scene ){
 
-
-
-					scene.add( new THREE.DirectionalLight() )
-
-					var material = new THREE.MeshLambertMaterial({wireframe:false, side:THREE.DoubleSide })
-					material.skinning = true;
-					// material.morphTargets = true;
-
-					// geometry.scale( 30, 30, 30 )
-					// geometry.center()
+					// new THREE.ColladaLoader().load( './dae-export.dae', function( geometry, materials ){
 
 
-					var mesh = new THREE.SkinnedMesh( geometry, material )
-					mesh.frustumCulled = false
+						console.log( scene )
 
-					// mesh.scale.set( 0.1, 0.1, 0.1 )
-					
-					// var mixer = new THREE.AnimationMixer( mesh );
-					var animations = []
+						scene.overrideMaterial = new THREE.MeshBasicMaterial({ map:texture, vertexColors:THREE.VertexColors})
 
-
-					helper = new THREE.SkeletonHelper( mesh );
-					helper.material.linewidth = 3;
-					helper.visible = true;
-					scene.add( helper );
-
-					// mesh.scale.set( 1000, 1000, 1000 )
-					console.log( helper )
+						// var clock = new THREE.Clock()
+						
+						camera.position.z = 10
 
 
 
-					// Create the animations		
-					// for ( var i = 0; i < geometry.animations.length; ++ i ) {
-					// 	var animName = geometry.animations[ i ].name;
-					// 	animations[ animName ] = geometry.animations[ i ];
-					// }
+						// scene.add( new THREE.DirectionalLight() )
+
+						// var material = new THREE.MeshNormalMaterial({wireframe:false, side:THREE.DoubleSide, shading:THREE.FlatShading, wireframe:false/*, vertexColors: THREE.VertexColors*/, /*map:texture*/ })
+						// // material.skinning = true;
+						// // material.morphTargets = true;
+
+						// // geometry.center()
+
+
+						// var mesh = new THREE.Mesh( geometry, material )
+						// mesh.frustumCulled = false
+
+						// // mesh.scale.set( 0.1, 0.1, 0.1 )
+						
+						// // var mixer = new THREE.AnimationMixer( mesh );
+						// var animations = []
+
+
+						// helper = new THREE.SkeletonHelper( mesh );
+						// helper.material.linewidth = 3;
+						// helper.visible = true;
+						// scene.add( helper );
+
+						// mesh.scale.set( 1000, 1000, 1000 )
+						// console.log( helper )
 
 
 
-					scene.add( mesh )
-					mesh.rotation.y = Math.PI * -0.5
-					// mesh.rotation.y = Math.PI * 0.5
-					
-					var animation = new THREE.Animation( mesh, geometry.animations[0] );
-				animation.play();
-
-					
+						// Create the animations		
+						// for ( var i = 0; i < geometry.animations.length; ++ i ) {
+						// 	var animName = geometry.animations[ i ].name;
+						// 	animations[ animName ] = geometry.animations[ i ];
+						// }
 
 
-					function render(){
 
-						THREE.AnimationHandler.update( clock.getDelta() );
-						helper.update();
+						// scene.add( mesh )
+						// mesh.rotation.y = Math.PI * -0.5
+						// mesh.rotation.y = Math.PI * 0.5
+						
+						// mixer.play( new THREE.AnimationAction( geometry.animations[ 0 ] ))
+						// var animation = new THREE.Animation( mesh, geometry.animations[0] );
+					// animation.play();
 
-						controls.update()
-						// RENDER STEP - fbo's, post etc
-						renderer.render( scene, camera )
-						requestAnimationFrame( render )
-
-					}
-
-					
+						// mesh.scale.set( 10, 10, 10 )
 
 
-					function setSize( w, h ){
+						function render(){
 
-						camera.aspect = w / h;
-						camera.updateProjectionMatrix();
+							// THREE.AnimationHandler.update( clock.getDelta() * 0.5 );
+							// mixer.update( clock.getDelta() );
+							// helper.update();
 
-						renderer.setSize( w, h )
+							// controls.update()
+							// RENDER STEP - fbo's, post etc
+							renderer.render( scene, camera )
+							requestAnimationFrame( render )
 
-					}
+						}
 
-					setSize( window.innerWidth, window.innerHeight )
-					document.addEventListener( 'reszie', function(){ setSize( window.innerWidth, window.innerHeight )})
-					render()
+						
 
+
+						function setSize( w, h ){
+
+							camera.aspect = w / h;
+							camera.updateProjectionMatrix();
+
+							renderer.setSize( w, h )
+
+						}
+
+						setSize( window.innerWidth, window.innerHeight )
+						document.addEventListener( 'resize', function(){ setSize( window.innerWidth, window.innerHeight )})
+						console.log('RENDER')
+						render()
+
+					})
 				})
 
 		</script>
