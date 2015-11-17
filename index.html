@@ -16,10 +16,12 @@
 
 				var /*scene = new THREE.Scene(),*/
 					renderer = new THREE.WebGLRenderer({antialias:true}),
-					camera = new THREE.PerspectiveCamera( 110, 1.2, 0.1, 10000000 )
+					camera = new THREE.PerspectiveCamera( 50, 1.2, 0.1, 10000000 )
 
 					renderer.setClearColor( 0xffffff )
 					controls = new THREE.OrbitControls( camera )
+
+					controls.autoRotate = true
 
 				document.body.appendChild( renderer.domElement )
 
@@ -42,8 +44,9 @@
 						scene.overrideMaterial = new THREE.MeshBasicMaterial({ map:texture, vertexColors:THREE.VertexColors})
 
 						// var clock = new THREE.Clock()
-						
-						camera.position.z = 10
+						scene.children[0].rotation.y = -0.3
+						scene.children[0].rotation.x += 0.25
+						camera.position.z = 20
 
 
 
@@ -115,12 +118,13 @@
 							camera.aspect = w / h;
 							camera.updateProjectionMatrix();
 
+							console.log( 'sdf')
 							renderer.setSize( w, h )
 
 						}
 
 						setSize( window.innerWidth, window.innerHeight )
-						document.addEventListener( 'resize', function(){ setSize( window.innerWidth, window.innerHeight )})
+						window.addEventListener( 'resize', function(){ setSize( window.innerWidth, window.innerHeight )})
 						console.log('RENDER')
 						render()
 
