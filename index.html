@@ -6,7 +6,7 @@
 		<script src='./three.js'></script>
 		<!-- <script src='https://rawgit.com/mrdoob/three.js/master/build/three.js'></script> -->
 		
-		<script src='./scene-loader.js'></script>
+		
 		<script src='./orbit-controls.js'></script>
 		
 	</head>
@@ -40,8 +40,10 @@
 
 
 						console.log( scene )
+						var light = new THREE.AmbientLight( 0xffffff )
+						scene.add( light )
 
-						scene.overrideMaterial = new THREE.MeshBasicMaterial({ map:texture, vertexColors:THREE.VertexColors})
+						// scene.overrideMaterial = new THREE.MeshBasicMaterial({  vertexColors:THREE.VertexColors})
 
 						// var clock = new THREE.Clock()
 						scene.children[0].rotation.y = -0.3
