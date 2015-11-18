@@ -18,6 +18,9 @@
 					renderer = new THREE.WebGLRenderer({antialias:true}),
 					camera = new THREE.PerspectiveCamera( 50, 1.2, 0.1, 10000000 )
 
+					// renderer.gammaInput = true
+					// renderer.gammaOutput = true
+
 					renderer.setClearColor( 0xffffff )
 					controls = new THREE.OrbitControls( camera )
 
@@ -28,10 +31,10 @@
 				console.log( 'NEW')
 
 
-				// var texture = new THREE.TextureLoader().load('./htc_textures_pizza.png', function( texture ){
+				var texture = new THREE.TextureLoader().load('./htc_textures_pizza.png', function( texture ){
 
 
-				// 	texture.needsUpdate = true
+					texture.needsUpdate = true
 
 				
 					new THREE.ObjectLoader().load( './htc_shaderTest_008.json', function( scene ){
@@ -39,11 +42,11 @@
 					// new THREE.ColladaLoader().load( './dae-export.dae', function( geometry, materials ){
 
 
-						console.log( scene )
-						var light = new THREE.AmbientLight( 0xffffff )
-						scene.add( light )
+						// console.log( scene )
+						// var light = new THREE.AmbientLight( 0xffffff )
+						// scene.add( light )
 
-						// scene.overrideMaterial = new THREE.MeshBasicMaterial({  vertexColors:THREE.VertexColors})
+						scene.overrideMaterial = new THREE.MeshBasicMaterial({ map:texture, vertexColors:THREE.VertexColors})
 
 						// var clock = new THREE.Clock()
 						// scene.children[0].rotation.y = -0.3
@@ -131,7 +134,7 @@
 						render()
 
 					})
-				// })
+				})
 
 		</script>
 	</body>
