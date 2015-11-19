@@ -14420,6 +14420,12 @@ THREE.ObjectLoader.prototype = {
 
 					break;
 
+				case 'SkinnedMesh':
+
+					object = new THREE.SkinnedMesh( getGeometry( data.geometry ), getMaterial( data.material ) );
+
+					break;
+
 				case 'LOD':
 
 					object = new THREE.LOD();

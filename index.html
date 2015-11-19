@@ -26,6 +26,8 @@
 
 					controls.autoRotate = true
 
+				var animations = []
+
 				document.body.appendChild( renderer.domElement )
 
 				console.log( 'NEW')
@@ -39,19 +41,43 @@
 				
 					new THREE.ObjectLoader().load( './htc_shaderTest_008.json', function( scene ){
 
+						console.log( scene )
+
 					// new THREE.ColladaLoader().load( './dae-export.dae', function( geometry, materials ){
 
 
 						// console.log( scene )
-						// var light = new THREE.AmbientLight( 0xffffff )
-						// scene.add( light )
+						var light = new THREE.AmbientLight( 0xffffff )
+						scene.add( light )
 
-						scene.overrideMaterial = new THREE.MeshBasicMaterial({ map:texture, vertexColors:THREE.VertexColors})
+						// scene.overrideMaterial = new THREE.MeshBasicMaterial({ map:texture, vertexColors:THREE.VertexColors})
 
-						// var clock = new THREE.Clock()
+						var clock = new THREE.Clock()
 						// scene.children[0].rotation.y = -0.3
 						// scene.children[0].rotation.x += 0.25
 						camera.position.z = 20
+
+
+
+
+						scene.traverse( function ( child ) {
+
+							if ( child instanceof THREE.SkinnedMesh ){
+
+								console.log( child.geometry.animations.length )
+								child.material.skinning = true
+								// var parent = child.parent
+								// parent.remove( child )
+								// var clonedMesh = new THREE.SkinnedMesh( child.geometry, child.material )
+								// parent.add( clonedMesh )
+
+								var animation = new THREE.Animation( child, child.geometry.animations[0] );
+								animation.play();
+								// animations.push( animation )
+
+							}
+
+						} );
 
 
 
@@ -104,7 +130,7 @@
 
 						function render(){
 
-							// THREE.AnimationHandler.update( clock.getDelta() * 0.5 );
+							THREE.AnimationHandler.update( clock.getDelta()  );
 							// mixer.update( clock.getDelta() );
 							// helper.update();
 
