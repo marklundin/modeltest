@@ -33,13 +33,13 @@
 				console.log( 'NEW')
 
 
-				var texture = new THREE.TextureLoader().load('./htc_textures_pizza.png', function( texture ){
+				// var texture = new THREE.TextureLoader().load('./htc_textures_pizza.png', function( texture ){
 
 
-					texture.needsUpdate = true
+				// 	texture.needsUpdate = true
 
 				
-					new THREE.ObjectLoader().load( './htc_shaderTest_008.json', function( scene ){
+					new THREE.ObjectLoader().load( './lamp.json', function( scene ){
 
 						console.log( scene )
 
@@ -50,24 +50,30 @@
 						var light = new THREE.AmbientLight( 0xffffff )
 						scene.add( light )
 
-						// scene.overrideMaterial = new THREE.MeshBasicMaterial({ map:texture, vertexColors:THREE.VertexColors})
+						// scene.overrideMaterial = new THREE.MeshBasicMaterial({color:0x0})
+						// scene.overrideMaterial.skinning = true
 
 						var clock = new THREE.Clock()
 						// scene.children[0].rotation.y = -0.3
 						// scene.children[0].rotation.x += 0.25
-						camera.position.z = 300
-						camera.position.y = 100
+						camera.position.z = 20
+						// camera.position.y = 100
 
 
 
 
 						scene.traverse( function ( child ) {
 
-							if ( child instanceof THREE.SkinnedMesh ){
+							if ( child instanceof THREE.SkinnedMesh && child.geometry.animations.length > 0  ){
 
-								console.log( child.geometry.animations.length )
+								child.geometry.computeBoundingBox()
+								console.log( child )
 								child.material.skinning = true
 								child.material.wireframe = true
+								child.material.color.r = 0
+								child.material.color.g = 0
+								child.material.color.b = 0
+								// child.material.wireframe = true
 								// var parent = child.parent
 								// parent.remove( child )
 								// var clonedMesh = new THREE.SkinnedMesh( child.geometry, child.material )
@@ -162,7 +168,7 @@
 						render()
 
 					})
-				})
+				// })
 
 		</script>
 	</body>
